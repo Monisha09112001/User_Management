@@ -1,9 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 
+
 const isLoggedIn = () => {
-  return false;
-};
+  const data =  localStorage.getItem("token")
+  console.log("privateroute",data);
+  const {token} = data ? JSON.parse(data) : {token:null}
+    return token
+  };
+
 
 export const PrivateRoute = () => {
-  return isLoggedIn() ? <Outlet /> : <Navigate to="/" replace />;
+  return isLoggedIn() ? <Outlet /> : <Navigate to="/" />;
 };

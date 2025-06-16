@@ -1,0 +1,7 @@
+.layoutMargin {
+  padding: 50px;
+}
+.layoutBg{
+  background: #DFE4E9;
+  height: calc(100vh - 60px);
+} 

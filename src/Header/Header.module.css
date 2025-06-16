@@ -1,0 +1,19 @@
+.narBar {
+    background: #101010;
+    color: white;
+    display: flex;
+    padding: 16px 50px;
+    justify-content: end;
+    gap: 20px;
+    align-items: center;
+}
+.logoutBg {
+    background: red;
+    padding: 4px 7px;
+    border-radius: 1px;
+}
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

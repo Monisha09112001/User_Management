@@ -1,14 +1,14 @@
 import { ColumnsType } from "antd/es/table";
 
 interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
+    page: number;
+    total: number;
+    data: any[];
   }
 
 export type TableTypes={
     columns:ColumnsType<DataType>
-    data:DataType[]
+    dataList:DataType
+    handleListapi:(page:number,filter:any)=>void
+    filters:any
 }

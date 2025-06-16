@@ -9,7 +9,6 @@ const route = createHashRouter(RootRoute,{basename:"/"});
 function App() {
   return <>
   <RouterProvider router={route} />
-  <p>kjl</p>
   </>
 }
 

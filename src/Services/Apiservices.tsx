@@ -4,27 +4,71 @@ export const loginService = async (data: {
   email: string;
   password: string;
 }) => {
-  const response = await fetch(`${baseURL}/api/login`, {
+  const response = await fetch(`${baseURL}login`, {
     method: "POST",
     headers: {
-      "content-Type": "application/json",
+      "Content-Type": "application/json",
+      "x-api-key": "reqres-free-v1",
     },
     body: JSON.stringify(data),
   });
   console.log(response, "resp");
 
-  return response;
+  return response.json();
 };
 
 export const userListService = async (page: { page: number }) => {
-  const response = await fetch(`${baseURL}/api/users?page=${page}`, {
+  const response = await fetch(`${baseURL}users?page=${page}`, {
     method: "GET",
     headers: {
-      "content-Type": "application/json",
+      "Content-Type": "application/json",
+      "x-api-key": "reqres-free-v1",
     },
-    body: JSON.stringify(page),
   });
   console.log(response, "resp");
 
-  return response;
+  return response.json();
+};
+
+export const CreateUserService = async (data: any) => {
+ 
+ console.log(data,"data");
+ 
+  const response = await fetch(`${baseURL}users`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "reqres-free-v1",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+export const UpdateUserService = async (data:any,UserID: any) => {
+ console.log(UserID,"UserID");
+ 
+  const response = await fetch(`${baseURL}users/${UserID}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "reqres-free-v1",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+export const DeleteUserService = async (UserID: any) => {
+  const response = await fetch(`${baseURL}users/${UserID}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "reqres-free-v1",
+    },
+  });
+
+  return response.json();
 };

@@ -5,9 +5,15 @@ export const CustomButton = ({
   btnName,
   type = "default",
   onClick,
+  size,
+  style
 }: ButtonTypes) => {
   return (
-    <Button type={type} onClick={onClick}>
+    <Button type={type} onClick={onClick}
+    size={size}
+    style={style}
+    className="buttonStyle"
+    >
       {btnName}
     </Button>
   );

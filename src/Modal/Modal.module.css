@@ -1,0 +1,16 @@
+.userFiledContainer {
+  display: flex;
+  gap: 28px;
+  flex-direction: column;
+}
+.modifyUserBtnContainer {
+    display: flex
+;
+    gap: 10px;
+    margin: 26px 0 15px 0;
+    justify-content: flex-end;
+}
+.OkbtnStyle {
+    background: #186eba;
+    color: white;
+}

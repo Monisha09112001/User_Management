@@ -1,0 +1,81 @@
+.cardContainer {
+  display: flex;
+  gap: 50px;
+  /* justify-content: space-between; */
+  flex-flow: wrap;
+  margin: 20px 0 20px 0;
+}
+.cardDesign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0px 1px 4px rgb(0 0 0 / 28%);
+  padding: 22px;
+  border-radius: 5px;
+  background: white;
+}
+.imagStyle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+.cardDesign {
+  position: relative;
+}
+
+.cardContent {
+  position: relative;
+  text-align: center;
+  border-radius: 8px;
+  background-color: white;
+  transition: 0.3s ease;
+}
+
+.cardContent:hover {
+  opacity: 0.7;
+}
+
+.imagStyle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.iconOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  gap: 10px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cardContent:hover .iconOverlay {
+  opacity: 1;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.edit {
+  background-color: #1890ff;
+}
+
+.delete {
+  background-color: #ff4d4f;
+}

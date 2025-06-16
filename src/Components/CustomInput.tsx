@@ -6,15 +6,23 @@ export const CustomInput = ({
   onChange,
   size = "large",
   placeholder,
+  Prefix,
+  error,
+  label
 }: InputTypes) => {
   return (
     <>
-      <Input
-        size={size}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
+      <div>
+        <p><span style={{color:"red"}}>*</span>{label}</p>
+        <Input
+          size={size}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          prefix={Prefix}
+        />
+        <p className="errorText">{error}</p>
+      </div>
     </>
   );
 };

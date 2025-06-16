@@ -1,0 +1,12 @@
+.tableContainer {
+  margin: 20px 0 20px 0;
+}
+
+.tableBoxsize {
+  max-height: 400px;
+  overflow: auto;
+}
+.paginatoinContainer{
+    display: flex;
+    justify-content: flex-end;
+}

@@ -1,12 +1,24 @@
 export type InputTypes = {
   value: string;
-  onChange: () => void;
-  size: "large" | "middle" | "small";
+  onChange: (e:any) => void;
+  size?: "large" | "middle" | "small";
   placeholder: string;
+  Prefix?:any
+  error?:string
+  label?:string
 };
 export type ButtonTypes = {
   btnName: string;
-  type: "primary" | "dashed" | "link" | "text" | "default";
+  type?: "primary" | "dashed" | "link" | "text" | "default";
   onClick: () => void;
+  size?: "large" | "middle" | "small";
+  style?:any
+  
 };
-
+export type CheckboxType={
+  checked:boolean
+  disabled:boolean
+  onChange:()=>void
+  label:string
+  style:any
+}

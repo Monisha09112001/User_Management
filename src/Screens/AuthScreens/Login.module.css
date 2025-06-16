@@ -1,0 +1,29 @@
+
+.loginMainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #b9c3cd80;
+}
+.loginBg {
+    background: white;
+    width: 30%;
+    height: 245px;
+    padding: 30px 30px 50px 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.logincontainer{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.remembermeContainer {
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -3,21 +3,18 @@ import { ModalTyes } from "./Modal.types";
 
 export const CustomModal = ({
   isModalOpen,
-  handleOk,
   handleCancel,
-  okText,
-  cancelText,
   children,
+  title
 }: ModalTyes) => {
   return (
     <Modal
-      title="Basic Modal"
+      title={title}
       closable={{ "aria-label": "Custom Close Button" }}
       open={isModalOpen}
-      onOk={handleOk}
       onCancel={handleCancel}
-      okText={okText}
-      cancelText={cancelText}
+      footer={null}
+
     >
       {children}
     </Modal>

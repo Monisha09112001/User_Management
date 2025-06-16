@@ -3,3 +3,35 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}
+.errorText {
+  color: red;
+  font-size: 13px;
+  margin: 1px;
+  position: absolute;
+}
+.buttonStyle {
+  background: "green";
+  color: "white";
+  font-size: 15px;
+}
+.privateLayoutMargin {
+  margin: 50px;
+}
+.containerBg{
+  background: white;
+  border-radius: 2px;
+  padding: 25px;
+}
+.tableWidth{
+  width:20%
+}
+.tableContentCenter {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

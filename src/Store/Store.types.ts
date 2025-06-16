@@ -1,6 +1,6 @@
 export type ReducerTypes = {
-  user: object;
-  token: object;
+  userData: object;
+  token: string;
   loading: boolean;
   error: string;
 };
