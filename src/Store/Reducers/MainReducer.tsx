@@ -7,7 +7,10 @@ import {
   UpdateUserService,
   userListService,
 } from "../../Services/Apiservices";
-import { setLocalStorageData } from "../../Utilities/Methods";
+import {
+  getLocalStorageData,
+  setLocalStorageData,
+} from "../../Utilities/Methods";
 
 export const CallLogin = createAsyncThunk(
   "main/CallLogin",
@@ -49,6 +52,7 @@ export const DeleteUser = createAsyncThunk(
   "main/DeleteUser",
   async ({ UserID }: { UserID: any }) => {
     const res = await DeleteUserService(UserID);
+
     return res;
   }
 );
@@ -58,12 +62,17 @@ const initialState: ReducerTypes = {
   token: "",
   loading: false,
   error: "",
+  userid: "",
 };
 
 const { reducer, actions } = createSlice({
   name: "main",
   initialState,
-  reducers: {},
+  reducers: {
+    UpdateUserID: (state, action) => {
+      state.userid = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     //login
     builder
@@ -91,7 +100,18 @@ const { reducer, actions } = createSlice({
       })
       .addCase(getListUser.fulfilled, (state, action) => {
         console.log("userfulfill");
-        setLocalStorageData("user", action.payload);
+        const userdata = getLocalStorageData("user");
+        console.log(userdata, "userdata==", action?.payload?.data);
+        const totalData = [
+          ...(userdata?.data ?? []),
+          ...(action?.payload?.data ?? []),
+        ];
+
+        setLocalStorageData("user", {
+          ...action.payload,
+          data: totalData,
+        });
+
         state.loading = false;
         state.userData = action.payload;
       })
@@ -111,6 +131,13 @@ const { reducer, actions } = createSlice({
       })
       .addCase(CreateUser.fulfilled, (state, action) => {
         console.log("userfulfill");
+        const userdata = getLocalStorageData("user");
+        console.log(userdata, action.payload, "userdata==");
+
+        setLocalStorageData("user", {
+          ...userdata,
+          data: [...userdata?.data, action.payload],
+        });
 
         state.loading = false;
       })
@@ -130,7 +157,17 @@ const { reducer, actions } = createSlice({
       })
       .addCase(UpdateUser.fulfilled, (state, action) => {
         console.log("userfulfill");
+        const userdata = getLocalStorageData("user");
+        console.log(userdata, "userdata==");
 
+        setLocalStorageData("user", {
+          ...userdata,
+          data: userdata?.data?.map((ele: any) => {
+            console.log(ele?.id, action.payload, "id===");
+
+            return ele?.id === action?.payload?.id ? action?.payload : ele;
+          }),
+        });
         state.loading = false;
       })
       .addCase(UpdateUser.rejected, (state) => {
@@ -138,9 +175,45 @@ const { reducer, actions } = createSlice({
 
         state.loading = false;
         state.error = "failed";
+      })
+
+      //updateuser
+      .addCase(DeleteUser.pending, (state) => {
+        console.log("userpen");
+
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(DeleteUser.fulfilled, (state, action) => {
+        console.log("userfulfill");
+        const userdata = getLocalStorageData("user");
+        console.log(userdata, state?.userid, "userdata==");
+
+        setLocalStorageData("user", {
+          ...userdata,
+          data: userdata?.data?.filter((ele: any) =>
+            ele?.id !== state?.userid ? ele : null
+          ),
+        });
+        state.loading = false;
+      })
+      .addCase(DeleteUser.rejected, (state, action) => {
+        console.log("userreject");
+
+        const userdata = getLocalStorageData("user");
+        console.log(userdata, state?.userid, "userdata==");
+
+        setLocalStorageData("user", {
+          ...userdata,
+          data: userdata?.data?.filter((ele: any) =>
+            ele?.id !== state?.userid ? ele : null
+          ),
+        });
+        state.loading = false;
+        state.error = "failed";
       });
   },
 });
 
-export const {} = actions;
+export const { UpdateUserID } = actions;
 export default reducer;

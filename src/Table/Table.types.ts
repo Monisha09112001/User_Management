@@ -4,6 +4,7 @@ interface DataType {
     page: number;
     total: number;
     data: any[];
+    total_pages:number
   }
 
 export type TableTypes={

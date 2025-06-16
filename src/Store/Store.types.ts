@@ -3,4 +3,5 @@ export type ReducerTypes = {
   token: string;
   loading: boolean;
   error: string;
+  userid:number|string
 };

@@ -41,6 +41,7 @@ export const ModifyUser = ({
       first_name: "",
       last_name: "",
       avatar: "",
+      id:""
     },
     validationSchema,
     onSubmit: (values) => {
@@ -59,6 +60,7 @@ export const ModifyUser = ({
         first_name: item?.first_name || "",
         last_name: item?.last_name || "",
         avatar: item?.avatar || "",
+        id:item?.id||""
       });
     }
   }, [item]);
@@ -67,6 +69,7 @@ export const ModifyUser = ({
     const resultAction = await dispatch(CreateUser(values));
 
     if (CreateUser.fulfilled.match(resultAction)) {
+
       resetForm();
       handleOk();
     }
@@ -117,7 +120,7 @@ export const ModifyUser = ({
         <CustomInput
           value={values.avatar}
           onChange={(e) => setFieldValue("avatar", e.target.value)}
-          placeholder="avatar"
+          placeholder="Profile Image Link"
           label="Profile Image Link"
           error={errors.avatar && touched.avatar ? errors.avatar : ""}
       required

@@ -4,7 +4,11 @@ import { CustomTable } from "../../Table/CustomTable";
 import { getLocalStorageData, UseToken } from "../../Utilities/Methods";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../Store/Config/Store";
-import { DeleteUser, getListUser } from "../../Store/Reducers/MainReducer";
+import {
+  DeleteUser,
+  getListUser,
+  UpdateUserID,
+} from "../../Store/Reducers/MainReducer";
 import { CustomButton } from "../../Components/CustomButton";
 import styles from "./HomeScreen.module.css";
 import { CustomModal } from "../../Modal/CustomModal";
@@ -29,18 +33,25 @@ export const UserManagement = () => {
   });
   const [option, setOption] = useState("Table");
   const [filter, setfilter] = useState("");
-  const userListData=getLocalStorageData("user")
-  const { data, page, total } = userListData|| {};
+  const userListData = getLocalStorageData("user");
+  const { data, page, total } = userListData || {};
 
-  console.log(userListData,"userListData");
-  
+  console.log(userListData, "userListData");
+
   const Segmentedoptions = [
     { label: "Table", value: "Table", icon: <TableOutlined /> },
     { label: "Card", value: "Card", icon: <BarsOutlined /> },
   ];
 
   useEffect(() => {
-    if (token) {
+    console.log(
+      token && !data?.length && !userData?.data?.length,
+      "datalength"
+    );
+
+    if (token && !data?.length && !userData?.data?.length) {
+      console.log("calllistuser");
+
       getListofUsers(1, filter);
     }
   }, [token]);
@@ -98,6 +109,7 @@ export const UserManagement = () => {
             btnName="Delete"
             onClick={() => {
               setDeleteItem({ status: true, item: data });
+              dispatch(UpdateUserID(data?.id));
             }}
             style={{ background: "red", color: "white" }}
           />
@@ -107,7 +119,6 @@ export const UserManagement = () => {
       className: "tableWidth",
     },
   ];
-
 
   const getListofUsers = (page = 1, filter = "") => {
     dispatch(getListUser({ page, data: filter }));
@@ -123,6 +134,12 @@ export const UserManagement = () => {
     }
   };
 
+  const handleCallListUser = (page = 1, filter = "") => {
+    let countOne = page * 6 - 6;
+    let countTwo = page * 6 + 1;
+  };
+
+  
   console.log(loading, "loading");
 
   return (
@@ -149,7 +166,9 @@ export const UserManagement = () => {
           <CustomTable
             columns={columns}
             dataList={userListData}
-            handleListapi={(page)=>getListofUsers(page,filter)}
+            handleListapi={(page) => {
+              handleCallListUser(page, filter);
+            }}
             filters={filter}
           />
         ) : (
@@ -178,7 +197,6 @@ export const UserManagement = () => {
           }
           handleOk={() => {
             setShow({ status: false, item: null, isCreate: false });
-            getListofUsers(1);
           }}
           item={show.item}
         />
