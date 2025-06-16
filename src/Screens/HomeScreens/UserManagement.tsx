@@ -13,6 +13,7 @@ import { ConfirmationModal } from "../../Modal/ConfirmationModal";
 import { BarsOutlined, TableOutlined } from "@ant-design/icons";
 import { CustomSegmented } from "../../Components/CustomSegmented";
 import { CardView } from "../../Components/CardView";
+import Loader from "../../Loader/Loader";
 
 export const UserManagement = () => {
   const token = UseToken();
@@ -115,6 +116,9 @@ export const UserManagement = () => {
       setDeleteItem({ status: false, item: null });
     }
   };
+
+  console.log(loading,"loading");
+
 
   return (
     <>

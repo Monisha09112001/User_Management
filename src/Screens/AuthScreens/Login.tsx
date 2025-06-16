@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CallLogin } from "../../Store/Reducers/MainReducer";
 import { AppDispatch } from "../../Store/Config/Store";
 import { Outlet, useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required"),
@@ -52,9 +53,12 @@ export const Login = () => {
       alert("Email or Password is incorrect")
     }
   };
+  console.log(loading,"loading");
+  
 
   return (
     <>
+    
       <section>
         <div className={styles.loginMainContainer}>
           <div className={styles.loginBg}>
