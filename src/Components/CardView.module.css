@@ -4,6 +4,8 @@
   /* justify-content: space-between; */
   flex-flow: wrap;
   margin: 20px 0 20px 0;
+  max-height: 400px;
+  overflow: auto;
 }
 .cardDesign {
   display: flex;
@@ -15,6 +17,7 @@
   padding: 22px;
   border-radius: 5px;
   background: white;
+
 }
 .imagStyle {
   width: 90px;

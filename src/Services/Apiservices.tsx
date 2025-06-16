@@ -12,12 +12,11 @@ export const loginService = async (data: {
     },
     body: JSON.stringify(data),
   });
-  console.log(response, "resp");
 
   return response.json();
 };
 
-export const userListService = async (  page: number,data:any ) => {
+export const userListService = async (page: number, data: any) => {
   const response = await fetch(`${baseURL}users?page=${page}`, {
     method: "GET",
     headers: {
@@ -25,15 +24,11 @@ export const userListService = async (  page: number,data:any ) => {
       "x-api-key": "reqres-free-v1",
     },
   });
-  console.log(response, "resp");
 
   return response.json();
 };
 
 export const CreateUserService = async (data: any) => {
- 
- console.log(data,"data");
- 
   const response = await fetch(`${baseURL}users`, {
     method: "POST",
     headers: {
@@ -46,9 +41,7 @@ export const CreateUserService = async (data: any) => {
   return response.json();
 };
 
-export const UpdateUserService = async (data:any,UserID: any) => {
- console.log(UserID,"UserID");
- 
+export const UpdateUserService = async (data: any, UserID: any) => {
   const response = await fetch(`${baseURL}users/${UserID}`, {
     method: "PUT",
     headers: {

@@ -23,8 +23,6 @@ export const CallLogin = createAsyncThunk(
 export const getListUser = createAsyncThunk(
   "main/getListUser",
   async ({ page, data }: { page: number; data: any }) => {
-    console.log(page, data, "data===");
-
     const res = await userListService(page, data);
     return res;
   }
@@ -41,8 +39,6 @@ export const CreateUser = createAsyncThunk(
 export const UpdateUser = createAsyncThunk(
   "main/UpdateUser",
   async ({ values, UserID }: { values: any; UserID: number }) => {
-    console.log(UserID, values, "valuu");
-
     const res = await UpdateUserService(values, UserID);
     return res;
   }
@@ -86,22 +82,17 @@ const { reducer, actions } = createSlice({
         state.token = action.payload;
       })
       .addCase(CallLogin.rejected, (state) => {
-        console.log("rejectt");
         state.loading = false;
         state.error = "Login failed";
       })
 
       //dashboard
       .addCase(getListUser.pending, (state) => {
-        console.log("userpen");
-
         state.loading = true;
         state.error = "";
       })
       .addCase(getListUser.fulfilled, (state, action) => {
-        console.log("userfulfill");
         const userdata = getLocalStorageData("user");
-        console.log(userdata, "userdata==", action?.payload?.data);
         const totalData = [
           ...(userdata?.data ?? []),
           ...(action?.payload?.data ?? []),
@@ -116,23 +107,17 @@ const { reducer, actions } = createSlice({
         state.userData = action.payload;
       })
       .addCase(getListUser.rejected, (state) => {
-        console.log("userreject");
-
         state.loading = false;
         state.error = "failed";
       })
 
       //createuser
       .addCase(CreateUser.pending, (state) => {
-        console.log("userpen");
-
         state.loading = true;
         state.error = "";
       })
       .addCase(CreateUser.fulfilled, (state, action) => {
-        console.log("userfulfill");
         const userdata = getLocalStorageData("user");
-        console.log(userdata, action.payload, "userdata==");
 
         setLocalStorageData("user", {
           ...userdata,
@@ -142,52 +127,38 @@ const { reducer, actions } = createSlice({
         state.loading = false;
       })
       .addCase(CreateUser.rejected, (state) => {
-        console.log("userreject");
-
         state.loading = false;
         state.error = "failed";
       })
 
       //updateuser
       .addCase(UpdateUser.pending, (state) => {
-        console.log("userpen");
-
         state.loading = true;
         state.error = "";
       })
       .addCase(UpdateUser.fulfilled, (state, action) => {
-        console.log("userfulfill");
         const userdata = getLocalStorageData("user");
-        console.log(userdata, "userdata==");
 
         setLocalStorageData("user", {
           ...userdata,
           data: userdata?.data?.map((ele: any) => {
-            console.log(ele?.id, action.payload, "id===");
-
             return ele?.id === action?.payload?.id ? action?.payload : ele;
           }),
         });
         state.loading = false;
       })
       .addCase(UpdateUser.rejected, (state) => {
-        console.log("userreject");
-
         state.loading = false;
         state.error = "failed";
       })
 
       //updateuser
       .addCase(DeleteUser.pending, (state) => {
-        console.log("userpen");
-
         state.loading = true;
         state.error = "";
       })
       .addCase(DeleteUser.fulfilled, (state, action) => {
-        console.log("userfulfill");
         const userdata = getLocalStorageData("user");
-        console.log(userdata, state?.userid, "userdata==");
 
         setLocalStorageData("user", {
           ...userdata,
@@ -198,10 +169,7 @@ const { reducer, actions } = createSlice({
         state.loading = false;
       })
       .addCase(DeleteUser.rejected, (state, action) => {
-        console.log("userreject");
-
         const userdata = getLocalStorageData("user");
-        console.log(userdata, state?.userid, "userdata==");
 
         setLocalStorageData("user", {
           ...userdata,

@@ -44,21 +44,18 @@ export const Login = () => {
   }, [token]);
 
   const handleLogin = () => {
-    if(values?.email=="eve.holt@reqres.in" && values.password==="cityslicka") 
-    {
+    if (
+      values?.email == "eve.holt@reqres.in" &&
+      values.password === "cityslicka"
+    ) {
       dispatch(CallLogin(values));
-
-    } 
-    else{
-      alert("Email or Password is incorrect")
+    } else {
+      alert("Email or Password is incorrect");
     }
   };
-  console.log(loading,"loading");
-  
 
   return (
     <>
-    
       <section>
         <div className={styles.loginMainContainer}>
           <div className={styles.loginBg}>
@@ -71,7 +68,7 @@ export const Login = () => {
                 placeholder="Email"
                 Prefix={<UserOutlined />}
                 error={errors.email && touched?.email ? errors.email : ""}
-              required={false}
+                required={false}
               />
 
               <CustomInputPassword
@@ -85,8 +82,7 @@ export const Login = () => {
                   errors.password && touched?.password ? errors.password : ""
                 }
                 required={false}
-             
-             />
+              />
             </div>
             <div className={styles.remembermeContainer}>
               <CustomCheckBox

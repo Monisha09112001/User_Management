@@ -35,8 +35,7 @@ export const UserManagement = () => {
   const [filter, setfilter] = useState("");
   const userListData = getLocalStorageData("user");
   const { data, page, total } = userListData || {};
-
-  console.log(userListData, "userListData");
+  const [filterdList, setFilteredList] = useState([]);
 
   const Segmentedoptions = [
     { label: "Table", value: "Table", icon: <TableOutlined /> },
@@ -44,14 +43,7 @@ export const UserManagement = () => {
   ];
 
   useEffect(() => {
-    console.log(
-      token && !data?.length && !userData?.data?.length,
-      "datalength"
-    );
-
     if (token && !data?.length && !userData?.data?.length) {
-      console.log("calllistuser");
-
       getListofUsers(1, filter);
     }
   }, [token]);
@@ -96,20 +88,20 @@ export const UserManagement = () => {
 
     {
       title: "Action",
-      render: (data: any) => (
+      render: (item: any) => (
         <div style={{ display: "flex", gap: 10 }}>
           <CustomButton
             btnName="Edit"
             onClick={() => {
-              setShow({ status: true, item: data, isCreate: false });
+              setShow({ status: true, item: item, isCreate: false });
             }}
             style={{ background: "#186eba", color: "white" }}
           />
           <CustomButton
             btnName="Delete"
             onClick={() => {
-              setDeleteItem({ status: true, item: data });
-              dispatch(UpdateUserID(data?.id));
+              setDeleteItem({ status: true, item: item });
+              dispatch(UpdateUserID(item?.id));
             }}
             style={{ background: "red", color: "white" }}
           />
@@ -135,12 +127,40 @@ export const UserManagement = () => {
   };
 
   const handleCallListUser = (page = 1, filter = "") => {
-    let countOne = page * 6 - 6;
-    let countTwo = page * 6 + 1;
+    const rawData = localStorage.getItem("user");
+    if (!rawData) return [];
+
+    const parsed = JSON.parse(rawData);
+    const fullList = parsed?.data ?? [];
+
+    const filteredList = filter
+      ? fullList.filter(
+          (item: any) =>
+            item.first_name.toLowerCase().includes(filter.toLowerCase()) ||
+            item.first_name.toLowerCase().includes(filter.toLowerCase())
+        )
+      : fullList;
+
+    // Pagination logic
+    const perPage = 6;
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+
+    const paginatedData = filteredList.slice(start, end);
+
+    return paginatedData;
   };
 
-  
-  console.log(loading, "loading");
+  const handleSearch = (value: string) => {
+    let filterdList = data?.filter((ele: any) => {
+      return (
+        ele?.first_name?.toLowerCase().includes(value.toLowerCase()) ||
+        ele?.last_name?.toLowerCase().includes(value.toLowerCase())
+      );
+    });
+
+    setFilteredList(filterdList);
+  };
 
   return (
     <>
@@ -150,14 +170,13 @@ export const UserManagement = () => {
           onClick={() => setShow({ status: true, item: null, isCreate: true })}
           handleSearch={(e: any) => {
             setfilter(e);
+            handleSearch(e);
           }}
           value={filter}
         />
         <CustomSegmented
           options={Segmentedoptions}
           onChange={(value: any) => {
-            console.log(value, "vall");
-
             setOption(value);
           }}
           value={option}
@@ -165,7 +184,11 @@ export const UserManagement = () => {
         {option === "Table" ? (
           <CustomTable
             columns={columns}
-            dataList={userListData}
+            dataList={
+              filter
+                ? { ...userListData, data: [...filterdList] }
+                : userListData
+            }
             handleListapi={(page) => {
               handleCallListUser(page, filter);
             }}
@@ -173,12 +196,18 @@ export const UserManagement = () => {
           />
         ) : (
           <CardView
-            dataList={userListData}
+            dataList={
+              filter
+                ? { ...userListData, data: [...filterdList] }
+                : userListData
+            }
             handleEdit={(ele) => {
               setShow({ status: true, item: ele, isCreate: false });
+              handleSearch(filter);
             }}
             handleDelete={(ele) => {
               setDeleteItem({ status: true, item: ele });
+              handleDelete();
             }}
           />
         )}
@@ -197,6 +226,7 @@ export const UserManagement = () => {
           }
           handleOk={() => {
             setShow({ status: false, item: null, isCreate: false });
+            handleSearch(filter);
           }}
           item={show.item}
         />
