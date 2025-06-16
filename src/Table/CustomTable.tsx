@@ -11,26 +11,23 @@ export const CustomTable = ({
   return (
     <>
       <div className={`${styles.tableContainer} ${styles.tableBoxsize}`}>
-      <Table columns={columns} dataSource={dataList?.data} 
-      pagination={false}
-/>
-    
-    </div>
-    <div className={styles.paginatoinContainer}>
-
-      <Pagination
-        current={dataList?.page}
-        onChange={(e) => {
-          handleListapi(e, filters ? filters : null);
-        }}
-        showSizeChanger={false}
-        pageSize={10}
-        total={dataList?.total}
-        
-      />
-    </div>
-
+        <Table
+          columns={columns}
+          dataSource={dataList?.data}
+          pagination={false}
+        />
+      </div>
+      <div className={styles.paginatoinContainer}>
+        <Pagination
+          current={dataList?.page}
+          onChange={(e) => {
+            handleListapi(e, filters ? filters : null);
+          }}
+          showSizeChanger={false}
+          pageSize={10}
+          total={dataList?.total}
+        />
+      </div>
     </>
-  
   );
 };

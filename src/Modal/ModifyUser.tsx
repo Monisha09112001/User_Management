@@ -67,7 +67,6 @@ export const ModifyUser = ({
     const resultAction = await dispatch(CreateUser(values));
 
     if (CreateUser.fulfilled.match(resultAction)) {
-      dispatch(getListUser(1));
       resetForm();
       handleOk();
     }
@@ -81,7 +80,6 @@ export const ModifyUser = ({
     );
 
     if (UpdateUser.fulfilled.match(resultAction)) {
-      dispatch(getListUser(1));
       resetForm();
       handleOk();
     }
@@ -96,7 +94,8 @@ export const ModifyUser = ({
           placeholder="Email"
           label="Email"
           error={errors.email && touched.email ? errors.email : ""}
-        />
+       required
+       />
         <CustomInput
           value={values.first_name}
           onChange={(e) => setFieldValue("first_name", e.target.value)}
@@ -105,6 +104,7 @@ export const ModifyUser = ({
           error={
             errors.first_name && touched.first_name ? errors.first_name : ""
           }
+        required
         />
         <CustomInput
           value={values.last_name}
@@ -112,6 +112,7 @@ export const ModifyUser = ({
           placeholder="Last Name"
           label="Last Name"
           error={errors.last_name && touched.last_name ? errors.last_name : ""}
+        required
         />
         <CustomInput
           value={values.avatar}
@@ -119,7 +120,8 @@ export const ModifyUser = ({
           placeholder="avatar"
           label="Profile Image Link"
           error={errors.avatar && touched.avatar ? errors.avatar : ""}
-        />
+      required
+      />
       </div>
       <div className={styles.modifyUserBtnContainer}>
         <CustomButton

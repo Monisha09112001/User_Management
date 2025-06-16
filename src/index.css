@@ -15,9 +15,10 @@ p {
   position: absolute;
 }
 .buttonStyle {
-  background: "green";
-  color: "white";
+  background: rgb(24, 110, 186);
+  color:white;
   font-size: 15px;
+  padding: 17px;
 }
 .privateLayoutMargin {
   margin: 50px;

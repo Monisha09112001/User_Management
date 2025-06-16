@@ -6,6 +6,8 @@ export type InputTypes = {
   Prefix?:any
   error?:string
   label?:string
+  required:boolean
+  suffix?:any
 };
 export type ButtonTypes = {
   btnName: string;

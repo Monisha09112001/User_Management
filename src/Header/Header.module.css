@@ -17,3 +17,12 @@
     align-items: center;
     justify-content: space-between;
 }
+.searchbosContainer {
+    display: flex
+;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}

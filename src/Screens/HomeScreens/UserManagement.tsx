@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PageHeader } from "../../Header/PageHeader";
 import { CustomTable } from "../../Table/CustomTable";
-import { UseToken } from "../../Utilities/Methods";
+import { getLocalStorageData, UseToken } from "../../Utilities/Methods";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../Store/Config/Store";
 import { DeleteUser, getListUser } from "../../Store/Reducers/MainReducer";
@@ -13,13 +13,11 @@ import { ConfirmationModal } from "../../Modal/ConfirmationModal";
 import { BarsOutlined, TableOutlined } from "@ant-design/icons";
 import { CustomSegmented } from "../../Components/CustomSegmented";
 import { CardView } from "../../Components/CardView";
-import Loader from "../../Loader/Loader";
 
 export const UserManagement = () => {
   const token = UseToken();
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error, userData } = useSelector((state: any) => state.main);
-  const { data, page, total } = userData;
   const [show, setShow] = useState({
     status: false,
     item: null,
@@ -30,15 +28,20 @@ export const UserManagement = () => {
     item: null,
   });
   const [option, setOption] = useState("Table");
+  const [filter, setfilter] = useState("");
+  const userListData=getLocalStorageData("user")
+  const { data, page, total } = userListData|| {};
+
+  console.log(userListData,"userListData");
+  
   const Segmentedoptions = [
     { label: "Table", value: "Table", icon: <TableOutlined /> },
-
     { label: "Card", value: "Card", icon: <BarsOutlined /> },
   ];
 
   useEffect(() => {
     if (token) {
-      dispatch(getListUser(1));
+      getListofUsers(1, filter);
     }
   }, [token]);
 
@@ -105,29 +108,33 @@ export const UserManagement = () => {
     },
   ];
 
-  console.log(userData, "uselost");
+
+  const getListofUsers = (page = 1, filter = "") => {
+    dispatch(getListUser({ page, data: filter }));
+  };
 
   const handleDelete = async () => {
     const isdeleted = await dispatch(
       DeleteUser({ UserID: deleteItem?.item?.id })
     );
     if (DeleteUser.fulfilled.match(isdeleted)) {
-      dispatch(getListUser(1));
+      dispatch(getListUser({ page: 1, data: filter }));
       setDeleteItem({ status: false, item: null });
     }
   };
 
-  console.log(loading,"loading");
-
+  console.log(loading, "loading");
 
   return (
     <>
-      <div
-        className="containerBg"
-          >
+      <div className="containerBg">
         <PageHeader
           heading="User"
           onClick={() => setShow({ status: true, item: null, isCreate: true })}
+          handleSearch={(e: any) => {
+            setfilter(e);
+          }}
+          value={filter}
         />
         <CustomSegmented
           options={Segmentedoptions}
@@ -141,22 +148,19 @@ export const UserManagement = () => {
         {option === "Table" ? (
           <CustomTable
             columns={columns}
-            dataList={userData}
-            handleListapi={() => {}}
-            filters={[]}
+            dataList={userListData}
+            handleListapi={(page)=>getListofUsers(page,filter)}
+            filters={filter}
           />
         ) : (
-          <CardView dataList={userData}
-          handleEdit={(ele)=>{
-            setShow({ status: true, item: ele, isCreate: false });
-
-          }}
-          handleDelete={(ele)=>
-          {
-            setDeleteItem({ status: true, item: ele });
-
-          }
-          }
+          <CardView
+            dataList={userListData}
+            handleEdit={(ele) => {
+              setShow({ status: true, item: ele, isCreate: false });
+            }}
+            handleDelete={(ele) => {
+              setDeleteItem({ status: true, item: ele });
+            }}
           />
         )}
       </div>
@@ -174,6 +178,7 @@ export const UserManagement = () => {
           }
           handleOk={() => {
             setShow({ status: false, item: null, isCreate: false });
+            getListofUsers(1);
           }}
           item={show.item}
         />

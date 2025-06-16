@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ReducerTypes } from "../Store.types";
-import { CreateUserService, DeleteUserService, loginService, UpdateUserService, userListService } from "../../Services/Apiservices";
-import {  storeLoginData } from "../../Utilities/Methods";
+import {
+  CreateUserService,
+  DeleteUserService,
+  loginService,
+  UpdateUserService,
+  userListService,
+} from "../../Services/Apiservices";
+import { setLocalStorageData } from "../../Utilities/Methods";
 
 export const CallLogin = createAsyncThunk(
   "main/CallLogin",
@@ -13,15 +19,17 @@ export const CallLogin = createAsyncThunk(
 
 export const getListUser = createAsyncThunk(
   "main/getListUser",
-  async (page: any) => {
-    const res = await userListService(page);
+  async ({ page, data }: { page: number; data: any }) => {
+    console.log(page, data, "data===");
+
+    const res = await userListService(page, data);
     return res;
   }
 );
 
 export const CreateUser = createAsyncThunk(
   "main/CreateUser",
-  async (data:any) => {
+  async (data: any) => {
     const res = await CreateUserService(data);
     return res;
   }
@@ -29,17 +37,17 @@ export const CreateUser = createAsyncThunk(
 
 export const UpdateUser = createAsyncThunk(
   "main/UpdateUser",
-  async ({values,UserID}:{values:any,UserID:number}) => {
-    console.log(UserID,values,"valuu");
-    
-    const res = await UpdateUserService(values,UserID);
-    return res; 
+  async ({ values, UserID }: { values: any; UserID: number }) => {
+    console.log(UserID, values, "valuu");
+
+    const res = await UpdateUserService(values, UserID);
+    return res;
   }
 );
 
 export const DeleteUser = createAsyncThunk(
   "main/DeleteUser",
-  async ({UserID}:{UserID: any}) => {
+  async ({ UserID }: { UserID: any }) => {
     const res = await DeleteUserService(UserID);
     return res;
   }
@@ -55,9 +63,7 @@ const initialState: ReducerTypes = {
 const { reducer, actions } = createSlice({
   name: "main",
   initialState,
-  reducers: {
-  
-  },
+  reducers: {},
   extraReducers: (builder) => {
     //login
     builder
@@ -66,7 +72,7 @@ const { reducer, actions } = createSlice({
         state.error = "";
       })
       .addCase(CallLogin.fulfilled, (state, action) => {
-        storeLoginData(action.payload)
+        setLocalStorageData("token", action.payload);
         state.loading = false;
         state.token = action.payload;
       })
@@ -79,13 +85,13 @@ const { reducer, actions } = createSlice({
       //dashboard
       .addCase(getListUser.pending, (state) => {
         console.log("userpen");
-        
+
         state.loading = true;
         state.error = "";
       })
       .addCase(getListUser.fulfilled, (state, action) => {
         console.log("userfulfill");
-
+        setLocalStorageData("user", action.payload);
         state.loading = false;
         state.userData = action.payload;
       })
@@ -99,7 +105,7 @@ const { reducer, actions } = createSlice({
       //createuser
       .addCase(CreateUser.pending, (state) => {
         console.log("userpen");
-        
+
         state.loading = true;
         state.error = "";
       })
@@ -118,7 +124,7 @@ const { reducer, actions } = createSlice({
       //updateuser
       .addCase(UpdateUser.pending, (state) => {
         console.log("userpen");
-        
+
         state.loading = true;
         state.error = "";
       })
@@ -136,5 +142,5 @@ const { reducer, actions } = createSlice({
   },
 });
 
-export const {  } = actions;
+export const {} = actions;
 export default reducer;

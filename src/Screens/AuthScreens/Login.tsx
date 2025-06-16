@@ -71,6 +71,7 @@ export const Login = () => {
                 placeholder="Email"
                 Prefix={<UserOutlined />}
                 error={errors.email && touched?.email ? errors.email : ""}
+              required={false}
               />
 
               <CustomInputPassword
@@ -83,7 +84,9 @@ export const Login = () => {
                 error={
                   errors.password && touched?.password ? errors.password : ""
                 }
-              />
+                required={false}
+             
+             />
             </div>
             <div className={styles.remembermeContainer}>
               <CustomCheckBox

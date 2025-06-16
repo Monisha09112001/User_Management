@@ -8,18 +8,21 @@ export const CustomInput = ({
   placeholder,
   Prefix,
   error,
-  label
+  label,
+  required=true,
+  suffix
 }: InputTypes) => {
   return (
     <>
       <div>
-        <p><span style={{color:"red"}}>*</span>{label}</p>
+       {label? <p><span style={{color:"red"}}>{required?"*":""}</span>{label}</p>:null}
         <Input
           size={size}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           prefix={Prefix}
+          suffix={suffix}
         />
         <p className="errorText">{error}</p>
       </div>

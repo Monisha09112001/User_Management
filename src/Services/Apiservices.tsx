@@ -17,7 +17,7 @@ export const loginService = async (data: {
   return response.json();
 };
 
-export const userListService = async (page: { page: number }) => {
+export const userListService = async (  page: number,data:any ) => {
   const response = await fetch(`${baseURL}users?page=${page}`, {
     method: "GET",
     headers: {
